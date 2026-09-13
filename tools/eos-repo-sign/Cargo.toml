@@ -14,4 +14,4 @@ license = "MIT"
 ml-dsa = { version = "0.1", features = ["alloc"] }
 ed25519-dalek = { version = "2", features = ["rand_core"] }
 rand_core = { version = "0.6", features = ["getrandom"] }
-signature = "2"
+signature = "3"

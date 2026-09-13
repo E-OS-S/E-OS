@@ -193,7 +193,7 @@ dependencies = [
  "ed25519-dalek",
  "ml-dsa",
  "rand_core 0.6.4",
- "signature 2.2.0",
+ "signature 3.0.0",
 ]
 
 [[package]]
