@@ -64,7 +64,7 @@ jobs:
           # or wide enough to be decorative. Audit first, then tighten from the evidence.
           egress-policy: audit
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # scripts/ci-integrity.sh only reads the work tree (`git grep` over tracked files);
           # it never contacts a remote, so the job's token has no business staying on disk.
@@ -148,7 +148,7 @@ jobs:
           # is real, so it is audited rather than pretended absent.
           egress-policy: audit
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -166,7 +166,7 @@ jobs:
           # active before believing anything compiled under it. Exits non-zero if none is.
           rustup show active-toolchain
 
-      - uses: Swatinem/rust-cache@98c8021b550208e191a6a3145459bfc9fb29c4c0 # v2.8.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
           workspaces: ${{ matrix.crate.dir }}
           key: ${{ matrix.crate.slug }}
@@ -254,7 +254,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -270,7 +270,7 @@ jobs:
         # toolchain install for a CI-only need.
         run: rustup component add llvm-tools-preview
 
-      - uses: Swatinem/rust-cache@98c8021b550208e191a6a3145459bfc9fb29c4c0 # v2.8.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
           workspaces: ${{ matrix.crate.dir }}
           key: coverage-${{ matrix.crate.slug }}
@@ -280,7 +280,7 @@ jobs:
       # exists because GitLab has no equivalent — the discipline is "never pipe a tarball
       # into tar", not "always write the curl by hand". `cargo install` is avoided for the
       # opposite reason: it recompiles the tool from unpinned sources on every single run.
-      - uses: taiki-e/install-action@efd8b64311f7a0a9b888ed13d0df78ec9184c163 # v2.62.11
+      - uses: taiki-e/install-action@fa23953489c080190314742a9b907f8e97c6767c # v2.87.10
         with:
           tool: cargo-llvm-cov
 
@@ -320,7 +320,7 @@ jobs:
       # taught this repo to stop shipping. The lcov is downloadable from the run, and
       # `genhtml` turns it into the same report locally. Wiring a real coverage service is
       # an operator action (a secret + an account), not something CI can fake.
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         # Upload even when the floor failed: the report is most useful in exactly the run
         # that went red, and this is a report, not a pass/fail signal.
         if: always()
