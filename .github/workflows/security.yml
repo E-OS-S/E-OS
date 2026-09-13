@@ -156,7 +156,7 @@ jobs:
             build-mode: none
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           # Audit, not block: CodeQL downloads its bundle and query packs from GitHub and
           # ghcr, and that destination set moves with the action's version. A block list
@@ -171,7 +171,7 @@ jobs:
           persist-credentials: false
 
       - name: initialise codeql
-        uses: github/codeql-action/init@192325c86100d080feab897ff886c34abd4c83a3 # v3.30.3
+        uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4.38.0
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
@@ -188,7 +188,7 @@ jobs:
       # create upstream divergence to carry — an alert is read, not fixed by reformatting
       # somebody else's tree.
       - name: analyse
-        uses: github/codeql-action/analyze@192325c86100d080feab897ff886c34abd4c83a3 # v3.30.3
+        uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4.38.0
         with:
           category: "/language:${{ matrix.language }}"
 
@@ -212,7 +212,7 @@ jobs:
       contents: read
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           # semgrep pulls its image from Docker Hub and its rule packs from
           # semgrep.dev; audit records both rather than guessing at a block list.
@@ -308,7 +308,7 @@ jobs:
 
       - name: upload sarif to code scanning
         if: always() && hashFiles('semgrep.sarif') != ''
-        uses: github/codeql-action/upload-sarif@192325c86100d080feab897ff886c34abd4c83a3 # v3.30.3
+        uses: github/codeql-action/upload-sarif@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4.38.0
         with:
           sarif_file: semgrep.sarif
           category: semgrep
@@ -324,7 +324,7 @@ jobs:
       contents: read
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
 
@@ -359,7 +359,7 @@ jobs:
       # a user account. If this repo ever moves under an org, this job stops working and
       # that is the reason.
       - name: gitleaks
-        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2.3.9
+        uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_CONFIG: .gitleaks.toml
@@ -386,7 +386,7 @@ jobs:
       contents: read
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
 
@@ -409,7 +409,7 @@ jobs:
       # scope bought for a bot comment when the failed check already says the same thing
       # is a bad trade.
       - name: dependency review
-        uses: actions/dependency-review-action@da24556b548a50705dd671f47852072ea4c105d9 # v4.7.1
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         with:
           # `low`, not `moderate`: a change that introduces a dependency with any known
           # advisory should be argued for in the review, not merged and triaged later.
@@ -433,7 +433,7 @@ jobs:
       contents: read
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           # osv-scanner queries api.osv.dev; audit records it rather than guessing.
           egress-policy: audit
@@ -469,7 +469,7 @@ jobs:
       - name: osv-scanner
         id: osv
         continue-on-error: true
-        uses: google/osv-scanner-action/osv-scanner-action@e92b5d07338d4f0ba0981dffed17c48976ca4730 # v2.2.3
+        uses: google/osv-scanner-action/osv-scanner-action@6e4298ebc4db23e847df9b2e2de2939d6f066c67 # v2.5.1
         with:
           scan-args: |-
             --format=sarif
@@ -479,7 +479,7 @@ jobs:
 
       - name: upload sarif to code scanning
         if: always() && hashFiles('osv-results.sarif') != ''
-        uses: github/codeql-action/upload-sarif@192325c86100d080feab897ff886c34abd4c83a3 # v3.30.3
+        uses: github/codeql-action/upload-sarif@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4.38.0
         with:
           sarif_file: osv-results.sarif
           category: osv-scanner
@@ -525,7 +525,7 @@ jobs:
       contents: read
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           # trivy fetches its vulnerability DB from ghcr; grype fetches its DB from
           # anchore's endpoint. Audit records both.
@@ -558,7 +558,7 @@ jobs:
 
       - name: upload trivy sarif
         if: always() && hashFiles('trivy-fs.sarif') != ''
-        uses: github/codeql-action/upload-sarif@192325c86100d080feab897ff886c34abd4c83a3 # v3.30.3
+        uses: github/codeql-action/upload-sarif@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4.38.0
         with:
           sarif_file: trivy-fs.sarif
           category: trivy-fs
@@ -570,7 +570,7 @@ jobs:
       # the severity this job would block at if it blocked — which it does not.
       - name: grype filesystem scan
         id: grype
-        uses: anchore/scan-action@f6601287cdb1efc985d6b765bbf99cb4c0ac29d8 # v7.0.0
+        uses: anchore/scan-action@27805bf3b4e84b4a5c980df22ed233c00390a439 # v7.4.2
         with:
           path: "."
           fail-build: false
@@ -579,7 +579,7 @@ jobs:
 
       - name: upload grype sarif
         if: always() && steps.grype.outputs.sarif != ''
-        uses: github/codeql-action/upload-sarif@192325c86100d080feab897ff886c34abd4c83a3 # v3.30.3
+        uses: github/codeql-action/upload-sarif@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4.38.0
         with:
           sarif_file: ${{ steps.grype.outputs.sarif }}
           category: grype-fs
@@ -628,7 +628,7 @@ jobs:
       contents: read
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
 
@@ -686,7 +686,7 @@ jobs:
 
       - name: upload base-image sarif
         if: always() && hashFiles('trivy-image-sarif/*.sarif') != ''
-        uses: github/codeql-action/upload-sarif@192325c86100d080feab897ff886c34abd4c83a3 # v3.30.3
+        uses: github/codeql-action/upload-sarif@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4.38.0
         with:
           sarif_file: trivy-image-sarif
           category: trivy-base-images
@@ -711,7 +711,7 @@ jobs:
       contents: read
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
 
@@ -786,7 +786,7 @@ jobs:
 
       - name: upload trivy config sarif
         if: always() && hashFiles('trivy-config.sarif') != ''
-        uses: github/codeql-action/upload-sarif@192325c86100d080feab897ff886c34abd4c83a3 # v3.30.3
+        uses: github/codeql-action/upload-sarif@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4.38.0
         with:
           sarif_file: trivy-config.sarif
           category: trivy-config
